@@ -18,9 +18,9 @@ public class JdgConfig {
 		ConfigurationBuilder builder = new ConfigurationBuilder();
         
 		builder.addServers(infinispanProperties.getServerList());
-		builder.connectionTimeout(100);
+		builder.connectionTimeout(10000);
 		builder.maxRetries(5);
-		builder.socketTimeout(100);
+		builder.socketTimeout(10000);
         
         return new RemoteCacheManager(builder.build());
     }

@@ -6,6 +6,7 @@ import org.infinispan.commons.api.BasicCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,23 +27,23 @@ public class JdgClientRestController {
 
 	@GetMapping("/get/{key}")
 	@ApiOperation(value = "Get Value from Key", response = JdgBean.class)
-	public JdgBean getValueFromCache (@RequestBody  JdgBean jdgBean) {
+	public JdgBean getValueFromCache (@PathVariable  String key) {
 		
 		
-		System.out.println("post to datagrid:" + jdgBean);
+		System.out.println("get from datagrid with key:" + key);
 		
 		try {
 			
 			
 			BasicCache <String, JdgBean> cache = remoteCacheManager.getCache(cacheName);
 
-			JdgBean result = cache.get(jdgBean.getKey());
+			JdgBean result = cache.get(key);
 			
 			if(result == null) throw new RuntimeException("no result on cache");
 			
 			System.out.println("success get cache:" + result);
 			
-            return jdgBean;
+            return result;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
